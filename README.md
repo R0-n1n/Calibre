@@ -16,6 +16,8 @@ gap projects, and a tailored cover letter — all powered by Groq's blazing-fast
 
 [**Try it live →**](https://resume-iq-three-rho.vercel.app)
 
+![ResumeIQ](assets/Screenshot.png)
+
 </div>
 
 ---
