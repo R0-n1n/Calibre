@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "PLACEHOLDER/api/:path*"
+      "destination": "https://resumeiq-production-0acf.up.railway.app/api/:path*"
     }
   ]
 }
