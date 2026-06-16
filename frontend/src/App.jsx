@@ -102,8 +102,8 @@ function Chip({label, color}) {
   );
 }
 
-function Card({children, style}) {
-  return <div style={Object.assign({},CARD_S,style||{})}>{children}</div>;
+function Card({ children, style, onClick }) {
+  return <div style={Object.assign({}, CARD_S, style || {})} onClick={onClick}>{children}</div>;
 }
 
 export default function App() {
