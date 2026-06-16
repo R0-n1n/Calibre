@@ -128,9 +128,6 @@ npm install
 npm run dev
 ```
 
-App → http://localhost:5173
-API docs → http://localhost:8000/docs
-
 ---
 
 ## 📁 Project Structure
