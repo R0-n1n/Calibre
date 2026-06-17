@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 // Architecture: Browser → /api/* (FastAPI) → Groq
 // This file never calls Groq or any AI provider directly.
@@ -468,6 +469,7 @@ export default function App() {
           </div>
         )}
       </div>
+      <Analytics />
     </div>
   );
 }
