@@ -123,6 +123,7 @@ export default function App() {
   var [error,setError]         = useState("");
   var [rewrites,setRewrites]   = useState({});
   var [rewriting,setRewriting] = useState(null);
+  var [rewriteCount,setRewriteCount] = useState(0);
   var [cover,setCover]         = useState("");
   var [coverLoading,setCoverL] = useState(false);
   var [copied,setCopied]       = useState(null);
@@ -165,6 +166,7 @@ export default function App() {
   }
 
   async function rewrite(sec) {
+    if (rewriteCount >= 3) { setError("Rewrite limit reached (3/3). Start a new analysis for more."); return; }
     var arData=selJob!==null?cmpRes[selJob]:results;
     var orig=arData&&arData.resume_sections&&arData.resume_sections[sec];
     if (!orig) return;
@@ -174,6 +176,7 @@ export default function App() {
       var fd=new FormData(); fd.append("section",sec); fd.append("content",orig); fd.append("job_description",jobDesc);
       var data=await apiPost("/api/rewrite",fd);
       setRewrites(function(p){return Object.assign({},p,{[sec]:data.rewritten});});
+      setRewriteCount(function(c){return c+1;});
     } catch(e) { setError("Rewrite failed: "+(e.message||"unknown error")); }
     finally { setRewriting(null); }
   }
@@ -192,7 +195,7 @@ export default function App() {
   }
 
   function copyText(t,k) { navigator.clipboard.writeText(t); setCopied(k); setTimeout(function(){setCopied(null);},2000); }
-  function resetAll() { setResults(null);setCmpRes(null);setSelJob(null);setRewrites({});setCover("");setError("");setTab("overview");setExpandedQ(null); }
+  function resetAll() { setResults(null);setCmpRes(null);setSelJob(null);setRewrites({});setCover("");setError("");setTab("overview");setExpandedQ(null);setRewriteCount(0); }
 
   var ar=selJob!==null?(cmpRes&&cmpRes[selJob]):results;
   var showInput=!results&&!cmpRes;
@@ -438,7 +441,7 @@ export default function App() {
 
             {tab==="rewriter"&&(
               <div>
-                <p style={{fontSize:13,color:"#555",marginBottom:18}}>Click <strong style={{color:"#b0a8ff"}}>Rewrite</strong> on any section for a JD-tailored version.</p>
+                <p style={{fontSize:13,color:"#555",marginBottom:18}}>Click <strong style={{color:"#b0a8ff"}}>Rewrite</strong> on any section for a JD-tailored version. {3-rewriteCount} of 3 rewrites remaining.</p>
                 {Object.entries(ar.resume_sections||{}).map(function(entry){
                   var sec=entry[0], content=entry[1];
                   if (!content||content.length<5) return null;
@@ -452,7 +455,7 @@ export default function App() {
                         </div>
                         <div style={{display:"flex",gap:8}}>
                           {rwt&&<button style={cpBtnS(copied===sec)} onClick={function(){copyText(rwt,sec);}}>{copied===sec?"✓ Copied":"📋 Copy"}</button>}
-                          <button style={purpBS(isL)} disabled={!!rewriting} onClick={function(){rewrite(sec);}}>{isL?"✦ Rewriting…":"✨ Rewrite"}</button>
+                          <button style={purpBS(isL||rewriteCount>=3)} disabled={!!rewriting||rewriteCount>=3} onClick={function(){rewrite(sec);}}>{isL?"✦ Rewriting…":rewriteCount>=3?"🔒 Limit Reached":"✨ Rewrite"}</button>
                         </div>
                       </div>
                       {rwt?(
