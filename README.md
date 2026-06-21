@@ -8,7 +8,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111.0-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Groq](https://img.shields.io/badge/Groq-llama--3.3--70b-F55036?style=for-the-badge)](https://groq.com)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 **ResumeIQ** analyzes your resume against any job description in seconds.
 Get an ATS score, skill gap breakdown, predicted interview questions,
@@ -180,7 +179,7 @@ resumeiq/
 
 ## 📄 License
 
-MIT — feel free to use, modify, and deploy your own version.
+All rights reserved. This code is proprietary. No permission is granted to copy, modify, distribute, or use this code without explicit written consent from the author.
 
 ---
 
