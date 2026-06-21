@@ -123,7 +123,7 @@ export default function App() {
   var [error,setError]         = useState("");
   var [rewrites,setRewrites]   = useState({});
   var [rewriting,setRewriting] = useState(null);
-  var [rewriteCount,setRewriteCount] = useState(0);
+  var [rewriteCounts,setRewriteCounts] = useState({});
   var [cover,setCover]         = useState("");
   var [coverLoading,setCoverL] = useState(false);
   var [copied,setCopied]       = useState(null);
@@ -166,7 +166,8 @@ export default function App() {
   }
 
   async function rewrite(sec) {
-    if (rewriteCount >= 3) { setError("Rewrite limit reached (3/3). Start a new analysis for more."); return; }
+    var currentCount = rewriteCounts[sec] || 0;
+    if (currentCount >= 3) { setError("Rewrite limit reached for this section (3/3)."); return; }
     var arData=selJob!==null?cmpRes[selJob]:results;
     var orig=arData&&arData.resume_sections&&arData.resume_sections[sec];
     if (!orig) return;
@@ -176,7 +177,7 @@ export default function App() {
       var fd=new FormData(); fd.append("section",sec); fd.append("content",orig); fd.append("job_description",jobDesc);
       var data=await apiPost("/api/rewrite",fd);
       setRewrites(function(p){return Object.assign({},p,{[sec]:data.rewritten});});
-      setRewriteCount(function(c){return c+1;});
+      setRewriteCounts(function(p){return Object.assign({},p,{[sec]:(p[sec]||0)+1});});
     } catch(e) { setError("Rewrite failed: "+(e.message||"unknown error")); }
     finally { setRewriting(null); }
   }
@@ -195,7 +196,7 @@ export default function App() {
   }
 
   function copyText(t,k) { navigator.clipboard.writeText(t); setCopied(k); setTimeout(function(){setCopied(null);},2000); }
-  function resetAll() { setResults(null);setCmpRes(null);setSelJob(null);setRewrites({});setCover("");setError("");setTab("overview");setExpandedQ(null);setRewriteCount(0); }
+  function resetAll() { setResults(null);setCmpRes(null);setSelJob(null);setRewrites({});setCover("");setError("");setTab("overview");setExpandedQ(null);setRewriteCounts({}); }
 
   var ar=selJob!==null?(cmpRes&&cmpRes[selJob]):results;
   var showInput=!results&&!cmpRes;
@@ -441,21 +442,24 @@ export default function App() {
 
             {tab==="rewriter"&&(
               <div>
-                <p style={{fontSize:13,color:"#555",marginBottom:18}}>Click <strong style={{color:"#b0a8ff"}}>Rewrite</strong> on any section for a JD-tailored version. {3-rewriteCount} of 3 rewrites remaining.</p>
+                <p style={{fontSize:13,color:"#555",marginBottom:18}}>Click <strong style={{color:"#b0a8ff"}}>Rewrite</strong> on any section for a JD-tailored version. Each section allows up to 3 rewrites.</p>
                 {Object.entries(ar.resume_sections||{}).map(function(entry){
                   var sec=entry[0], content=entry[1];
                   if (!content||content.length<5) return null;
                   var rwt=rewrites[sec], isL=rewriting===sec;
+                  var count=rewriteCounts[sec]||0;
+                  var locked=count>=3;
                   return (
                     <div key={sec} style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:14,padding:"18px 20px",marginBottom:14}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
                         <div style={{display:"flex",alignItems:"center",gap:8}}>
                           <span>{SECT_ICONS[sec]||"📄"}</span>
                           <span style={{fontSize:13,fontWeight:700,color:"#a0a0cc",textTransform:"capitalize"}}>{sec}</span>
+                          <span style={{fontSize:11,color:"#555"}}>{"("+count+"/3 used)"}</span>
                         </div>
                         <div style={{display:"flex",gap:8}}>
                           {rwt&&<button style={cpBtnS(copied===sec)} onClick={function(){copyText(rwt,sec);}}>{copied===sec?"✓ Copied":"📋 Copy"}</button>}
-                          <button style={purpBS(isL||rewriteCount>=3)} disabled={!!rewriting||rewriteCount>=3} onClick={function(){rewrite(sec);}}>{isL?"✦ Rewriting…":rewriteCount>=3?"🔒 Limit Reached":"✨ Rewrite"}</button>
+                          <button style={purpBS(isL||locked)} disabled={!!rewriting||locked} onClick={function(){rewrite(sec);}}>{isL?"✦ Rewriting…":locked?"🔒 Limit Reached":"✨ Rewrite"}</button>
                         </div>
                       </div>
                       {rwt?(
