@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📄 ResumeIQ
+# 📄 Calibre
 
 ### AI-powered resume analyzer that helps you land more interviews
 
