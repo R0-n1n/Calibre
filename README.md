@@ -9,13 +9,13 @@
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Groq](https://img.shields.io/badge/Groq-llama--3.3--70b-F55036?style=for-the-badge)](https://groq.com)
 
-**ResumeIQ** analyzes your resume against any job description in seconds.
+**Calibre** analyzes your resume against any job description in seconds.
 Get an ATS score, skill gap breakdown, predicted interview questions,
 gap projects, and a tailored cover letter — all powered by Groq's blazing-fast Llama 3.3 70B.
 
 [**Try it live →**](https://resume-iq-three-rho.vercel.app)
 
-![ResumeIQ](assets/Screenshot.png)
+![Calibre](assets/Screenshot.png)
 
 </div>
 

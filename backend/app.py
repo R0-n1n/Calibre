@@ -30,7 +30,7 @@ from utils.ai_provider import (
 
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 
-app = FastAPI(title="ResumeIQ API", version="3.0.0")
+app = FastAPI(title="Calibre API", version="3.0.0")
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 
