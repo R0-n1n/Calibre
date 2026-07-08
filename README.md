@@ -172,8 +172,8 @@ resumeiq/
 
 | Service | Platform | URL |
 |---|---|---|
-| Frontend | Vercel | https://resume-iq-three-rho.vercel.app |
-| Backend | Railway | https://resumeiq-production-0acf.up.railway.app |
+| Frontend | Vercel | https://calibre-rho.vercel.app |
+| Backend | Railway | https://calibre.up.railway.app |
 
 ---
 
