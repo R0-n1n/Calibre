@@ -13,7 +13,7 @@
 Get an ATS score, skill gap breakdown, predicted interview questions,
 gap projects, and a tailored cover letter — all powered by Groq's blazing-fast Llama 3.3 70B.
 
-[**Try it live →**](https://resume-iq-three-rho.vercel.app)
+[**Try it live →**](https://calibre-rho.vercel.app)
 
 ![Calibre](assets/Screenshot.png)
 
